@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3 class="fw-bold" >Student Dashboard</h3>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body">
+                <h5>Total Tasks</h5>
+                <h3>{{ total_task }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body">
+                <h5>Pending</h5>
+                <h3>{{ pending_task }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body">
+                <h5>Completed</h5>
+                <h3>{{ complete_task }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger shadow">
+            <div class="card-body">
+                <h5>High Priority</h5>
+                <h3>{{ high_priority }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow bg-light">
+    <div class="card-body ">
+        <h5 class="mb-3">Task List</h5>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+
+                <tr>
+                    <th>title</th>
+                    <th>Subject</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                  
+                {% for task in tasks  %}
+                  
+                <tr>
+                    <td>{{ task.task_title}}</td>
+                    <td>{{ task.subject}}</td>
+                    <td>{{task.due_date}}</td>
+                    <td class="priority-high">{{task.priority}}</td>
+                <td>
+                    {% if task.isCompelete %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% endif %}
+                </td>
+                    <td>
+                        {% if request.user.is_superuser or task.user == request.user %}
+                        <a href="{% url 'edit_btn' task.id %}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{% url 'done_btn' task.id %}" class="btn btn-sm btn-success">Done</a>
+                        <a href="{% url 'delete_btn' task.id %}"  class="btn btn-sm btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+
+               
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

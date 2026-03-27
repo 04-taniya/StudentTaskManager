@@ -1,0 +1,12 @@
+h1{
+    color:brown;
+    text-align:left;
+    padding: 4px;
+    margin-left: 10px;
+    font-size: larger;
+}
+nav{
+    background-color: antiquewhite;
+    width: auto;
+    height: auto;
+}
